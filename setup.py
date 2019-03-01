@@ -26,7 +26,8 @@ setup(
     include_package_data=True,
     url='http://github.com/clinicedc/edc-sites',
     license='GPL license, see LICENSE',
-    description='Simple classes related to the django sites framework for clinicedc projects.',
+    description=(
+        'Simple classes related to the django sites framework for clinicedc projects.'),
     long_description=README,
     zip_safe=False,
     keywords='django sites edc',

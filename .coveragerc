@@ -1,4 +1,4 @@
 [run]
-include = edc_utils/*
-omit = edc_utils/tests/*,edc_utils/migrations/*
+include = edc_sites/*
+omit = edc_sites/tests/*,edc_sites/migrations/*
 branch = 1
