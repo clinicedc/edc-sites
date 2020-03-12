@@ -45,8 +45,8 @@ Register a ``post_migrate`` signal in ``apps.py`` to update the django model ``S
 .. |pypi| image:: https://img.shields.io/pypi/v/edc-sites.svg
     :target: https://pypi.python.org/pypi/edc-sites
     
-.. |travis| image:: https://travis-ci.org/clinicedc/edc-sites.svg?branch=develop
-    :target: https://travis-ci.org/clinicedc/edc-sites
+.. |travis| image:: https://travis-ci.com/clinicedc/edc-sites.svg?branch=develop
+    :target: https://travis-ci.com/clinicedc/edc-sites
     
 .. |codecov| image:: https://codecov.io/gh/clinicedc/edc-sites/branch/develop/graph/badge.svg
   :target: https://codecov.io/gh/clinicedc/edc-sites
