@@ -202,7 +202,7 @@ to code duplication. So let's backup a bit. What do we need to setup?
 
     # extract country and sitename from DJANGO_SETTINGS_MODULE environment variable
     EDC_SITES_MODULE_NAME = env.str("EDC_SITES_MODULE_NAME")
-    COUNTRY, SITE_ID = get_site_from_environment(
+    COUNTRY, SITE_ID, _ = get_site_from_environment(
         default_site_name="mbarara",
         default_country="uganda",
         app_name=APP_NAME,
