@@ -1,24 +1,36 @@
 |pypi| |travis| |codecov| |downloads|
 
-.. _sites_framework: https://docs.djangoproject.com/en/2.1/ref/contrib/sites/
-__ sites_framework_
-
 edc-sites
 ---------
 
-Site definitions to work with Django's `Sites Framework`__.
+Site definitions to work with Django's `Sites Framework`__ and django_multisite_.
 
 Define a ``sites.py``. This is usually in a separate project module. For example, for project ``meta`` there is a module ``meta_sites`` that contains a ``sites.py``.
 
 .. code-block:: python
 
 	# sites.py
+    from edc_sites.single_site import SingleSite
 
-	fqdn = "meta.clinicedc.org"
+	fqdn = "example.clinicedc.org"
 
 	meta_sites = (
-	    (10, "hindu_mandal", "Hindu Mandal Hospital"),
-	    (20, "amana", "Amana Hospital"),
+	    SingleSite(
+	        10,
+	        "hindu_mandal",
+	        title="Hindu Mandal Hospital",
+	        country="tanzania",
+	        country_code="tz",
+	        domain=f"hindu_mandal.tz.{fqdn}",
+	    ),
+	    SingleSite(
+	        20,
+	        "amana",
+	        title="Amana Hospital",
+	        country="tanzania",
+	        country_code="tz",
+	        domain=f"hindu_mandal.tz.{fqdn}",
+	    ),
 	)
 
 
@@ -52,175 +64,45 @@ For example:
 
     all_sites = {
         "tanzania":(
-            (10, "hindu_mandal", "Hindu Mandal Hospital"),
-            (20, "amana", "Amana Hospital"),
+            SingleSite(
+                101,
+                "hindu_mandal",
+                title="Hindu Mandal Hospital",
+                country="tanzania",
+                country_code="tz",
+                domain=f"hindu_mandal.tz.{fqdn}",
+            ),
+            SingleSite(
+                102,
+                "amana",
+                title="Amana Hospital",
+                country="tanzania",
+                country_code="tz",
+                domain=f"hindu_mandal.tz.{fqdn}",
+            ),
         ),
         "uganda":(
-            (10, "kojja", "Kojja Clinic"),
-            (20, "mbarara", "Mbarara Clinic"),
-            (30, "kampala", "Kampala Clinic"),
+            SingleSite(
+                201,
+                "kojja",
+                country="uganda",
+                country_code="ug",
+                domain=f"kojja.ug.{fqdn}",
+            ),
+            SingleSite(
+                202,
+                "mbarara",
+                country="uganda",
+                country_code="ug",
+                domain=f"mbarara.ug.{fqdn}",
+            ),
         ),
     }
 
 
-In a mult-isite, multi-country deployment, managing the SITE_ID is complicated.
-
-One approach is to manipulate the ``DJANGO_SETTINGS_MODULE``.
-
-The ``DJANGO_SETTINGS_MODULE`` is referred to by ``wsgi.py`` and can just as easily be referred to in settings itself.
-For example, instead of explicitly setting the ``SITE_ID`` you can use ``edc_sites`` utility ``get_site_from_environment``.
-
-What we would like to be able do is this:
-
-.. code-block:: bash
-
-    # defaults as a test environment or whatever manage.py points to.
-    $ python manage.py runserver
-    >>> from django.conf import settings
-    >>> setting.SITE_ID
-    >>> 100
-
-    # which, with the new folder structure,  is the same as this
-    $ python manage.py runserver --settings=inte_edc.settings.defaults
-
-    >>> from django.conf import settings
-    >>> setting.SITE_ID
-    >>> 100
-
-    # This loads for a specific site
-    $ python manage.py runserver --settings=inte_edc.settings.uganda.kojja
-
-    >>> from django.conf import settings
-    >>> setting.SITE_ID
-    >>> 170
-
-
-Of course, having a custom settings file is easy, but managing these across multiple deployments can easily lead
-to code duplication. So let's backup a bit. What do we need to setup?
-
-
-1. change ``manage.py``
-
-.. code-block:: python
-
-    ...
-    ...
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "inte_edc.settings.defaults")
-    ...
-    ...
-
-
-    or to be more helpful ...
-
-.. code-block:: python
-
-    def main():
-    default = "inte_edc.settings.defaults"
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "inte_edc.settings.defaults")
-    if os.environ.get("DJANGO_SETTINGS_MODULE") == default:
-        sys.stderr.write(
-            style.ERROR(
-                f"DJANGO_SETTINGS_MODULE not set. Using `{default}`. "
-                f"Assuming a test environment (manage.py).\n"
-            )
-        )
-    try:
-        from django.core.management import execute_from_command_line
-    ...
-    ...
-
-
-2. change ``wsgi.py``
-
-.. code-block:: python
-
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "inte_edc.settings")
-
-    becomes this
-
-.. code-block:: python
-
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "inte_edc.settings.defaults")
-
-
-3. create a custom sites module that has a ``sites.py``. In this case ``inte_sites.sites``;
-
-.. code-block:: python
-
-    fqdn = "inte.clinicedc.org"
-
-    all_sites = {
-        "tanzania":(
-            (10, "hindu_mandal", "Hindu Mandal Hospital"),
-            (20, "amana", "Amana Hospital"),
-        ),
-        "uganda":(
-            (10, "kojja", "Kojja Clinic"),
-            (20, "mbarara", "Mbarara Clinic"),
-            (30, "kampala", "Kampala Clinic"),
-        ),
-    }
-
-
-4. move settings.py to a folder and put all settings stuff in a ``defaults.py``::
-
-    inte-edc/
-        inte_edc/
-            settings/
-                __init__.py
-                defaults.py
-                uganda/
-                    __init__.py
-                    kampala.py
-                    kojja.py
-                    mbarara.py
-            __init__.py
-            wsgi.py
-        inte_sites/
-            __init__.py
-            apps.py
-            sites.py
-    manage.py
-
-
-5. create dummy ``settings`` files for each site, for example;
-
-.. code-block:: python
-
-    # kojja.py
-    from ..defaults import *  # noqa
-
-
-4. update the settings ``defaults.py`` file. Replace ``SITE_ID=<site_id>`` ...
-
-.. code-block:: python
-
-    # defaults.py
-    from edc_sites import get_site_from_environment
-
-    ...
-
-    # extract country and sitename from DJANGO_SETTINGS_MODULE environment variable
-    EDC_SITES_MODULE_NAME = env.str("EDC_SITES_MODULE_NAME")
-    COUNTRY, SITE_ID, _ = get_site_from_environment(
-        default_site_name="mbarara",
-        default_country="uganda",
-        app_name=APP_NAME,
-        sites_module_name=EDC_SITES_MODULE_NAME,
-    )
-
-    ...
-
-    we choose "mbarara" and "uganda" for our default site_name and country.
-
-
-5. We use a ``.env`` file and set ``EDC_SITES_MODULE_NAME`` to ``inte_sites.sites``.
-
-6. set the ``DJANGO_SETTINGS_MODULE`` for each environment the project is loaded in.
-
-Unless we are testing, we'll expect the ``DJANGO_SETTINGS_MODULE`` to be set.
-We'll set it to a value that includes the county and site name.
-As you can see from the change to ``defaults.py`` above, we parse the value using ``get_site_from_environment``.
+In a multisite, multi-country deployment, managing the SITE_ID is complicated. We use django_multisite_ which nicely reads
+the SITE_ID from the url. django_multisite will extract `kojja` from https://kojja.ug.example.clinicedc.org to do a model lookup
+to get the SITE_ID.
 
 
 .. |pypi| image:: https://img.shields.io/pypi/v/edc-sites.svg
@@ -234,3 +116,9 @@ As you can see from the change to ``defaults.py`` above, we parse the value usin
 
 .. |downloads| image:: https://pepy.tech/badge/edc-sites
    :target: https://pepy.tech/project/edc-sites
+
+.. _django_multisite: https://github.com/ecometrica/django-multisite.git
+
+.. _sites_framework: https://docs.djangoproject.com/en/dev/ref/contrib/sites/
+__ sites_framework_
+
