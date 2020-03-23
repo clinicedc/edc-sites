@@ -9,7 +9,6 @@ from os.path import abspath, dirname, join
 
 
 class DisableMigrations:
-
     def __contains__(self, item):
         return True
 
@@ -18,66 +17,66 @@ class DisableMigrations:
 
 
 base_dir = dirname(abspath(__file__))
-app_name = 'edc_sites'
+app_name = "edc_sites"
 
 installed_apps = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'edc_sites',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "edc_sites",
 ]
 
 DEFAULT_SETTINGS = dict(
     BASE_DIR=base_dir,
+    EDC_SITES_MODULE_NAME="edc_sites.tests.sites",
     SITE_ID=10,
-    ALLOWED_HOSTS=['localhost'],
+    ALLOWED_HOSTS=["localhost"],
     # AUTH_USER_MODEL='custom_user.CustomUser',
-    ROOT_URLCONF=f'{app_name}.tests.urls',
-    STATIC_URL='/static/',
+    ROOT_URLCONF=f"{app_name}.tests.urls",
+    STATIC_URL="/static/",
     INSTALLED_APPS=installed_apps,
     DATABASES={
         # required for tests when acting as a server that deserializes
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': join(base_dir, 'db.sqlite3'),
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": join(base_dir, "db.sqlite3"),
         },
     },
-    TEMPLATES=[{
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ]
-        },
-    }],
-    MIDDLEWARE=[
-        'django.middleware.security.SecurityMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    TEMPLATES=[
+        {
+            "BACKEND": "django.template.backends.django.DjangoTemplates",
+            "APP_DIRS": True,
+            "OPTIONS": {
+                "context_processors": [
+                    "django.contrib.auth.context_processors.auth",
+                    "django.contrib.messages.context_processors.messages",
+                ]
+            },
+        }
     ],
-
-    LANGUAGE_CODE='en-us',
-    TIME_ZONE='UTC',
+    MIDDLEWARE=[
+        "django.middleware.security.SecurityMiddleware",
+        "django.contrib.sessions.middleware.SessionMiddleware",
+        "django.middleware.common.CommonMiddleware",
+        "django.middleware.csrf.CsrfViewMiddleware",
+        "django.contrib.auth.middleware.AuthenticationMiddleware",
+        "django.contrib.messages.middleware.MessageMiddleware",
+        "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    ],
+    LANGUAGE_CODE="en-us",
+    TIME_ZONE="UTC",
     USE_I18N=True,
     USE_L10N=True,
     USE_TZ=True,
-
     APP_NAME=app_name,
     EDC_BOOTSTRAP=3,
-
-    DEFAULT_FILE_STORAGE='inmemorystorage.InMemoryStorage',
+    DEFAULT_FILE_STORAGE="inmemorystorage.InMemoryStorage",
     MIGRATION_MODULES=DisableMigrations(),
-    PASSWORD_HASHERS=('django.contrib.auth.hashers.MD5PasswordHasher', ),
+    PASSWORD_HASHERS=("django.contrib.auth.hashers.MD5PasswordHasher",),
 )
 
 
@@ -85,8 +84,7 @@ def main():
     if not settings.configured:
         settings.configure(**DEFAULT_SETTINGS)
     django.setup()
-    failures = DiscoverRunner(failfast=True).run_tests(
-        [f'{app_name}.tests'])
+    failures = DiscoverRunner(failfast=True).run_tests([f"{app_name}.tests"])
     sys.exit(failures)
 
 
