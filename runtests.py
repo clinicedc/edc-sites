@@ -27,6 +27,7 @@ installed_apps = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "multisite",
     "edc_sites",
 ]
 
