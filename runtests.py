@@ -85,7 +85,10 @@ def main():
     if not settings.configured:
         settings.configure(**DEFAULT_SETTINGS)
     django.setup()
-    failures = DiscoverRunner(failfast=True).run_tests([f"{app_name}.tests"])
+    tags = [t.split("=")[1] for t in sys.argv if t.startswith("--tag")]
+    failures = DiscoverRunner(failfast=False, tags=tags).run_tests(
+        [f"{app_name}.tests"]
+    )
     sys.exit(failures)
 
 
