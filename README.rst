@@ -1,4 +1,4 @@
-|pypi| |travis| |codecov| |downloads|
+|pypi| |actions| |codecov| |downloads|
 
 edc-sites
 ---------
@@ -37,7 +37,7 @@ Define a ``sites.py``. This is usually in a separate project module. For example
 Register a ``post_migrate`` signal in ``apps.py`` to update the django model ``Site`` and the EDC model ``SiteProfile`` on the next migration:
 
 .. code-block:: python
-	
+
 	# apps.py
 
 	from .sites import meta_sites, fqdn
@@ -107,10 +107,10 @@ to get the SITE_ID.
 
 .. |pypi| image:: https://img.shields.io/pypi/v/edc-sites.svg
     :target: https://pypi.python.org/pypi/edc-sites
-    
-.. |travis| image:: https://travis-ci.com/clinicedc/edc-sites.svg?branch=develop
-    :target: https://travis-ci.com/clinicedc/edc-sites
-    
+
+.. |actions| image:: https://github.com/clinicedc/edc-sites/workflows/build/badge.svg?branch=develop
+  :target: https://github.com/clinicedc/edc-sites/actions?query=workflow:build
+
 .. |codecov| image:: https://codecov.io/gh/clinicedc/edc-sites/branch/develop/graph/badge.svg
   :target: https://codecov.io/gh/clinicedc/edc-sites
 
