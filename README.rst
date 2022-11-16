@@ -9,12 +9,12 @@ Define a ``sites.py``. This is usually in a separate project module. For example
 
 .. code-block:: python
 
-	# sites.py
+    # sites.py
     from edc_sites.single_site import SingleSite
 
 	fqdn = "example.clinicedc.org"
 
-	meta_sites = (
+	all_sites = (
 	    SingleSite(
 	        10,
 	        "hindu_mandal",
@@ -40,14 +40,14 @@ Register a ``post_migrate`` signal in ``apps.py`` to update the django model ``S
 
 	# apps.py
 
-	from .sites import meta_sites, fqdn
+	from .sites import all_sites, fqdn
 
 	def post_migrate_update_sites(sender=None, **kwargs):
 	    from edc_sites.add_or_update_django_sites import add_or_update_django_sites
 
 	    sys.stdout.write(style.MIGRATE_HEADING("Updating sites:\n"))
 	    add_or_update_django_sites(
-	        apps=django_apps, sites=meta_sites, fqdn=fqdn, verbose=True
+	        apps=django_apps, sites=all_sites, fqdn=fqdn, verbose=True
 	    )
 	    sys.stdout.write("Done.\n")
 	    sys.stdout.flush()
