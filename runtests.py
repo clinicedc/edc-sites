@@ -18,7 +18,7 @@ DEFAULT_SETTINGS = DefaultTestSettings(
     BASE_DIR=base_dir,
     APP_NAME=app_name,
     SITE_ID=10,
-    LANGUAGES=dict(tn="Setswana"),
+    LANGUAGES=dict(en="English"),
     EDC_SITES_MODULE_NAME="edc_sites.tests.sites",
     ETC_DIR=os.path.join(base_dir, app_name, "tests", "etc"),
     INSTALLED_APPS=[
