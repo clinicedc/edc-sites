@@ -4,6 +4,8 @@ _version.py
 .settings
 .DS_Store
 db.sqlite3*
+.env*
+.etc*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
