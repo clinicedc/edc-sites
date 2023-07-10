@@ -1,0 +1,8 @@
+0.3.23
+------
+- add func to validate site for subject
+- SiteModelAdminMixin:
+  - feature to limit to related site in FK and M2M
+  - filter queryset by site
+  - check for site attr
+
