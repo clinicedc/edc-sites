@@ -1,21 +1,20 @@
 #!/usr/bin/env python
 import logging
-import os
-from os.path import abspath, dirname
+from pathlib import Path
 
 from edc_constants.constants import IGNORE
 from edc_test_utils import DefaultTestSettings, func_main
 
 app_name = "edc_sites"
-base_dir = dirname(abspath(__file__))
+base_dir = Path(__file__).absolute().parent
 
 project_settings = DefaultTestSettings(
     calling_file=__file__,
-    template_dirs=[os.path.join(base_dir, app_name, "tests", "templates")],
+    template_dirs=[str(base_dir / app_name / "tests" / "templates")],
     BASE_DIR=base_dir,
     DEBUG=True,
-    KEY_PATH=os.path.join(base_dir, app_name, "tests", "etc"),
-    ETC_DIR=os.path.join(base_dir, app_name, "tests", "etc"),
+    KEY_PATH=str(base_dir / app_name / "tests" / "etc"),
+    ETC_DIR=str(base_dir / app_name / "tests" / "etc"),
     AUTO_CREATE_KEYS=False,
     APP_NAME=app_name,
     SITE_ID=10,

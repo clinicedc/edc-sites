@@ -174,6 +174,16 @@ To get a list of sites that the user has access to in the current request, use f
 
     site_ids = site_ids_with_permissions(request)
 
+Default Site
+++++++++++++
+
+Edc sites may be configured to register a default site. This may be useful for testing where
+you are not registering any sites manually or through ``autodiscover``.
+
+In ``settings``::
+
+    EDC_SITES_REGISTER_DEFAULT=True
+
 
 
 .. |pypi| image:: https://img.shields.io/pypi/v/edc-sites.svg
