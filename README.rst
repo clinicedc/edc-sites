@@ -158,11 +158,11 @@ is reserved for VIEW ONLY access, e.g the AUDITOR_ROLE. The one exception is for
 and``auth`` models accessible to users granted ACCOUNT_MANAGER_ROLE permissions.
 
 In your code, you can check if a user has access to more than just the current site using function
-``has_permissions_for_extra_sites``:
+``may_view_other_sites``:
 
 .. code-block:: python
 
-    if has_permissions_for_extra_sites(request):
+    if may_view_other_sites(request):
         queryset = self.appointment_model_cls.objects.all()
     else:
         queryset = self.appointment_model_cls.on_site
@@ -172,7 +172,11 @@ To get a list of sites that the user has access to in the current request, use f
 
 .. code-block:: python
 
-    site_ids = site_ids_with_permissions(request)
+    from edc_model_admin.utils import add_to_messages_once
+
+    site_ids, msg, level = site_ids_with_permissions(request.user, request.site)
+    add_to_messages_once(msg, request, level)
+
 
 Default Site
 ++++++++++++
