@@ -168,18 +168,17 @@ In your code, you can check if a user has access to more than just the current s
         queryset = self.appointment_model_cls.on_site
 
 To get a list of sites that the user has access to in the current request, use function
-``site_ids_with_permissions``.
+``get_view_only_sites_for_user``.
 
 .. code-block:: python
 
     from edc_model_admin.utils import add_to_messages_once
 
-    site_ids, msg, level = site_ids_with_permissions(request.user, request.site)
-    add_to_messages_once(msg, request, level)
+    site_ids = get_view_only_sites_for_user(request.user, request.site, request=request)
 
 
-Default Site
-++++++++++++
+Default Site and tests
+++++++++++++++++++++++
 
 Edc sites may be configured to register a default site. This may be useful for testing where
 you are not registering any sites manually or through ``autodiscover``.
@@ -187,6 +186,27 @@ you are not registering any sites manually or through ``autodiscover``.
 In ``settings``::
 
     EDC_SITES_REGISTER_DEFAULT=True
+
+
+The default site id is 1.
+
+If your tests depend on a test app that has a ``sites.py``, you might need to set the SITE_ID in your tests.
+
+Use the ``override_settings`` decorator on the test class or on a specific test.
+
+For example:
+
+.. code-block:: python
+
+    @override_settings(SITE_ID=20)
+    class TestLpFormValidator(TestCase):
+        def setUp(self):
+            ...
+
+        @override_settings(SITE_ID=40)
+        def test_lp_not_done(self):
+            ...
+
 
 
 
