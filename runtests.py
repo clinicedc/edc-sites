@@ -18,7 +18,6 @@ project_settings = DefaultTestSettings(
     AUTO_CREATE_KEYS=False,
     APP_NAME=app_name,
     SITE_ID=10,
-    # LANGUAGES=dict(en="English"),
     EDC_SITES_MODULE_NAME="edc_sites.tests.sites",
     EDC_NAVBAR_VERIFY_ON_LOAD=IGNORE,
     INSTALLED_APPS=[
