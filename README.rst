@@ -168,13 +168,13 @@ In your code, you can check if a user has access to more than just the current s
         queryset = self.appointment_model_cls.on_site
 
 To get a list of sites that the user has access to in the current request, use function
-``get_view_only_sites_for_user``.
+``get_view_only_site_ids_for_user``.
 
 .. code-block:: python
 
     from edc_model_admin.utils import add_to_messages_once
 
-    site_ids = get_view_only_sites_for_user(request.user, request.site, request=request)
+    site_ids = get_view_only_site_ids_for_user(request.user, request.site, request=request)
 
 
 Default Site and tests
@@ -213,8 +213,8 @@ For example:
 .. |pypi| image:: https://img.shields.io/pypi/v/edc-sites.svg
     :target: https://pypi.python.org/pypi/edc-sites
 
-.. |actions| image:: https://github.com/clinicedc/edc-sites/workflows/build/badge.svg?branch=develop
-  :target: https://github.com/clinicedc/edc-sites/actions?query=workflow:build
+.. |actions| image:: https://github.com/clinicedc/edc-sites/actions/workflows/build.yml/badge.svg
+  :target: https://github.com/clinicedc/edc-sites/actions/workflows/build.yml
 
 .. |codecov| image:: https://codecov.io/gh/clinicedc/edc-sites/branch/develop/graph/badge.svg
   :target: https://codecov.io/gh/clinicedc/edc-sites
