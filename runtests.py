@@ -2,7 +2,6 @@
 import logging
 from pathlib import Path
 
-from edc_constants.constants import IGNORE
 from edc_test_utils import DefaultTestSettings, func_main
 
 app_name = "edc_sites"
@@ -19,7 +18,7 @@ project_settings = DefaultTestSettings(
     APP_NAME=app_name,
     SITE_ID=10,
     EDC_SITES_MODULE_NAME="edc_sites.tests.sites",
-    EDC_NAVBAR_VERIFY_ON_LOAD=IGNORE,
+    SILENCED_SYSTEM_CHECKS=["sites.E101", "edc_navbar.E002", "edc_navbar.E003"],
     SUBJECT_VISIT_MODEL="edc_visit_tracking.subjectvisit",
     INSTALLED_APPS=[
         "django.contrib.admin",
