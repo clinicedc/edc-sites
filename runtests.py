@@ -2,7 +2,6 @@
 import logging
 from pathlib import Path
 
-from edc_constants.constants import IGNORE
 from edc_test_utils import DefaultTestSettings, func_main
 
 app_name = "edc_sites"
@@ -19,7 +18,14 @@ project_settings = DefaultTestSettings(
     APP_NAME=app_name,
     SITE_ID=10,
     EDC_SITES_MODULE_NAME="edc_sites.tests.sites",
-    EDC_NAVBAR_VERIFY_ON_LOAD=IGNORE,
+    SILENCED_SYSTEM_CHECKS=[
+        "sites.E101",
+        "edc_navbar.E002",
+        "edc_navbar.E003",
+        "edc_consent.E001",
+        "edc_sites.E001",
+        "edc_sites.E002",
+    ],
     SUBJECT_VISIT_MODEL="edc_visit_tracking.subjectvisit",
     INSTALLED_APPS=[
         "django.contrib.admin",
@@ -29,21 +35,30 @@ project_settings = DefaultTestSettings(
         "django.contrib.messages",
         "django.contrib.staticfiles",
         "django.contrib.sites",
-        "django_crypto_fields",
-        "edc_auth.apps.AppConfig",
+        "multisite",
+        "django_crypto_fields.apps.AppConfig",
+        "django_revision.apps.AppConfig",
         "edc_action_item.apps.AppConfig",
         "edc_appointment.apps.AppConfig",
+        "edc_auth.apps.AppConfig",
         "edc_dashboard.apps.AppConfig",
+        "edc_data_manager.apps.AppConfig",
+        "edc_facility.apps.AppConfig",
+        "edc_form_runners.apps.AppConfig",
         "edc_lab.apps.AppConfig",
+        "edc_list_data.apps.AppConfig",
         "edc_listboard.apps.AppConfig",
+        "edc_metadata.apps.AppConfig",
         "edc_navbar.apps.AppConfig",
         "edc_notification.apps.AppConfig",
+        "edc_registration.apps.AppConfig",
         "edc_review_dashboard.apps.AppConfig",
+        "edc_screening.apps.AppConfig",
+        "edc_sites.apps.AppConfig",
         "edc_subject_dashboard.apps.AppConfig",
         "edc_visit_schedule.apps.AppConfig",
         "edc_visit_tracking.apps.AppConfig",
-        "multisite",
-        "edc_sites",
+        "edc_appconfig.apps.AppConfig",
     ],
     USE_I18N=True,
     USE_L10N=True,
