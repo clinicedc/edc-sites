@@ -39,6 +39,8 @@ project_settings = DefaultTestSettings(
         "django_crypto_fields.apps.AppConfig",
         "django_revision.apps.AppConfig",
         "edc_action_item.apps.AppConfig",
+        "edc_adverse_event.apps.AppConfig",
+        "adverse_event_app.apps.AppConfig",
         "edc_appointment.apps.AppConfig",
         "edc_auth.apps.AppConfig",
         "edc_dashboard.apps.AppConfig",
