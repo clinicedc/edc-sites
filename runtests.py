@@ -25,6 +25,7 @@ project_settings = DefaultTestSettings(
         "edc_consent.E001",
         "edc_sites.E001",
         "edc_sites.E002",
+        "edc_consent.E002",
     ],
     SUBJECT_VISIT_MODEL="edc_visit_tracking.subjectvisit",
     INSTALLED_APPS=[
