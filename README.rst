@@ -226,4 +226,3 @@ For example:
 
 .. _sites_framework: https://docs.djangoproject.com/en/dev/ref/contrib/sites/
 __ sites_framework_
-
